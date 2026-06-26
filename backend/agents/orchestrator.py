@@ -135,7 +135,7 @@ def execute(context_or_question, context_str=None):
         # Remove from remaining list under lock
         with ctx._lock:
             if task_name in ctx.remaining_tasks:
-                ctx._remaining_tasks.remove(task_name)
+                ctx.remaining_tasks.remove(task_name)
                 
         task["status"] = "running"
         

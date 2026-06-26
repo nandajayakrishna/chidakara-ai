@@ -121,6 +121,11 @@ class ExecutionContext:
         self._draft_answer: str = ""
         self._final_answer: str = ""
         self.tool_outputs = ThreadSafeDict()
+
+# workflow execution state
+        self.workflow_state = ThreadSafeDict()
+
+# workspace state
         self.workspace_state = ThreadSafeDict()
         self._execution_trace = ThreadSafeList()
         self._web_results = ThreadSafeList()
