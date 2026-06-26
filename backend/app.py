@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi import UploadFile
 from fastapi import File
 import shutil
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict, Any
 
@@ -69,28 +70,21 @@ def ask(data: QuestionRequest):
 
     return result
 @app.post("/upload")
-def upload_pdf(
-    file: UploadFile = File(...)
-):
+def upload_pdf(file: UploadFile = File(...)):
 
-    file_path = f"uploads/{file.filename}"
+    os.makedirs("uploads", exist_ok=True)
+
+    file_path = os.path.join("uploads", file.filename)
 
     with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(
-            file.file,
-            buffer
-        )
+        shutil.copyfileobj(file.file, buffer)
 
-    chunks = ingest_document(
-        file_path
-    )
+    chunks = ingest_document(file_path)
 
     return {
         "status": "success",
         "chunks_created": chunks
     }
-
-
 @app.get("/trace/latest")
 def get_latest():
     from debug.trace_builder import get_latest_trace
@@ -313,4 +307,4 @@ def get_decision_history():
     return [d.to_dict() for d in decision_history_log]
 
 
-
+
