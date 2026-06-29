@@ -33,5 +33,9 @@ def ingest_document(file_path):
         ids=ids,
         metadatas=metadata
     )
+    print("=" * 60)
+print("UPLOAD SUCCESS")
+print("Collection count after upload:", collection.count())
+print("=" * 60)
 
-    return len(chunks)
+return len(chunks)
